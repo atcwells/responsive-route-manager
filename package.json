@@ -1,0 +1,33 @@
+{
+  "name": "ResponsiveRouteManager",
+  "version": "0.0.0",
+  "description": "A route manager which automatically updates based on specifications provided, whilst the parent application is running.",
+  "main": "ResponsiveRouteManager.js",
+  "dependencies": {
+    "hound": "~1.0.4",
+    "lodash-node": "~2.4.1",
+    "fs-extra": "~0.10.0",
+    "body-parser": "~1.8.1",
+    "express": "~4.7.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atcwells/ResponsiveRouteManager.git"
+  },
+  "keywords": [
+    "route",
+    "manager",
+    "api",
+    "manager"
+  ],
+  "author": "Alex Wells",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/atcwells/ResponsiveRouteManager/issues"
+  },
+  "homepage": "https://github.com/atcwells/ResponsiveRouteManager"
+}
