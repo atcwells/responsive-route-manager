@@ -3,7 +3,7 @@ var path = require('path');
 var _ = require('lodash-node');
 
 module.exports = functionalAPI = function functionalAPI(mountPath, expressApp) {
-	var self = this;
+    var self = this;
     self.expressApp = expressApp;
     self.mountPath = mountPath;
     self.publicAPI = {};
@@ -19,12 +19,12 @@ module.exports = functionalAPI = function functionalAPI(mountPath, expressApp) {
     });
 };
 
-functionalAPI.prototype.configureRoute = function configureRoute(file) {
+functionalAPI.prototype.mountRoute = function configureRoute(file) {
     var self = this;
     var file = self.interpretFile(file);
     if (file && file.properties && file.properties.name && _.isFunction(self.publicAPI[file.properties.name])) {
         var route = '/' + self.mountPath + '/' + file.properties.name + '/:method';
-        self.logger.info('Configuring route at [' + route + ']');
+        self.logger.info('Mounting route at [' + route + ']');
         self.expressApp[file.properties.verb](route, function(request, response, next) {
             var api = new self.publicAPI[file.properties.name](request, response, function(response) {
                 if (response && !response.headerSent) {
@@ -42,13 +42,6 @@ functionalAPI.prototype.configureRoute = function configureRoute(file) {
     } else {
         self.logger.error('Unable to Configure route using API file [' + file + ']');
     }
-};
-
-functionalAPI.prototype.destroyRoute = function destroyRoute(verb, route) {
-    var route = "";
-    this.expressApp[verb](route, function() {
-    	
-    });
 };
 
 functionalAPI.prototype.interpretFile = function interpretFile(file) {

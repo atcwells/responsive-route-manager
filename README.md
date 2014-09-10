@@ -21,7 +21,7 @@ Route manager which updates according to watched files. Configurable programmati
         mountPath : 'api'
     }, expressApp);
 
-    ram.changeMountPath('newAPIPath');
+    ram.changeMountPath('newapipath');
 
 ##API
 
