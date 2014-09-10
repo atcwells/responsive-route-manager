@@ -23,14 +23,20 @@ Route manager which updates according to watched files. Configurable programmati
 
     ram.changeMountPath('newAPIPath');
 
-##API:
+##API
 
-startup: called automatically when package is initialised
-shutdown: programmatically shutdown the RouteManager
-changeMountPath: change the path on which the Routes are configured
-discoverFiles: find the files in the folder in which the RouteManager is looking
-setupFileWatching: configure the watchers which will notify the Route when changes are made
-getRoutes: return a map of all the routes configured for this RouteManager
+###startup()
+called automatically when package is initialised
+###shutdown()
+programmatically shutdown the RouteManager
+###changeMountPath(path)
+change the path on which the Routes are configured
+###discoverFiles()
+find the files in the folder in which the RouteManager is looking
+###setupFileWatching()
+configure the watchers which will notify the Route when changes are made
+###getRoutes()
+return a map of all the routes configured for this RouteManager
 
 ## License 
 
