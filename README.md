@@ -13,7 +13,7 @@ Install from npm with:
   - `logger` A logger object which exposes methods 'info', 'error', 'warn', 'debug'. Otherwise messages are logged to the console.
   - `folder` Folder which should be inspected for the lifetime of the application for changes/insertions.
   - `mountPath` URL Path upon which the assets should be mounted.
-  - `clientType` Coresponds to the filename of one of the files in the 'client_types' folder. Defines the type of asset to be maanged.
+  - `clientType` Coresponds to the filename of one of the files in the 'client_types' folder. Defines the type of asset to be managed.
   
 ## Client Types  
 
