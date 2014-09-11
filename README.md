@@ -1,5 +1,7 @@
 # ResponsiveRouteManager
 
+Route manager which updates according to watched files. Configurable programmatically
+
 ## Installation
 
 Install from npm with:
@@ -8,12 +10,17 @@ Install from npm with:
 
 ## Options
 
-  - `logger` Collection (optional, default: `sessions`) 
-  - `folder` Collection (optional, default: `sessions`) 
-  - `mountPath` Collection (optional, default: `sessions`) 
-  - `clientType` Coresponds to the filename of one of the files in the 'client_types' folder. Defines the type of 
+  - `logger` A logger object which exposes methods 'info', 'error', 'warn', 'debug'. Otherwise messages are logged to the console.
+  - `folder` Folder which should be inspected for the lifetime of the application for changes/insertions.
+  - `mountPath` URL Path upon which the assets should be mounted.
+  - `clientType` Coresponds to the filename of one of the files in the 'client_types' folder. Defines the type of asset to be maanged.
   
-Route manager which updates according to watched files. Configurable programmatically
+## Client Types  
+
+Current client types are:
+
+  - `functional-api` An API which takes in POST parameters and responds using logic defined by a piece of middleware.
+  - `static` A server which responds to new files creating new routes as they are required. A replacement for statically passing a whole folder.
 
 ## Example
 
@@ -27,7 +34,7 @@ Route manager which updates according to watched files. Configurable programmati
 
     ram.changeMountPath('newapipath');
 
-##API
+## API
 
 ###startup()
 called automatically when package is initialised
