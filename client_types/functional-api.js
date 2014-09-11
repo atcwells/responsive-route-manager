@@ -25,6 +25,9 @@ functionalAPI.prototype.mountRoute = function configureRoute(file) {
     var self = this;
     var file = self.interpretFile(file);
     if (file && file.properties && file.properties.name && _.isFunction(self.publicAPI[file.properties.name])) {
+    	if(!self.expressApp[file.properties.verb])
+    		throw "You have specified a verb that Express doesn't like.";
+    		
         var route = '/' + self.mountPath + '/' + file.properties.name + '/:method';
         self.logger.info('Mounting route at [' + route + ']');
         self.expressApp[file.properties.verb](route, function(request, response, next) {
