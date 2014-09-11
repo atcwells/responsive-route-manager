@@ -28,8 +28,9 @@ Current client types are:
     var RAM = require('./ResponsiveRouteManager.js');
     var ram = new RAM({
         folder : '/api',
-        apiType : 'functionalAPI',
-        mountPath : 'api'
+        clientType : 'functional-api',
+        mountPath : 'api',
+        logger: ''
     }, expressApp);
 
     ram.changeMountPath('newapipath');
