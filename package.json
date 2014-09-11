@@ -8,7 +8,7 @@
     "lodash-node": "~2.4.1",
     "fs-extra": "~0.10.0",
     "body-parser": "~1.8.1",
-    "express": "~4.7.4"
+    "express": "~4.8.4"
   },
   "devDependencies": {},
   "scripts": {

@@ -9,24 +9,29 @@ module.exports = static = function static(mountPath, expressApp) {
     self.publicAPI = {};
 
     self.logger.info('Creating mount path at [' + this.mountPath + ']');
-    expressApp.use('/' + self.mountPath, function(request, response, next) {
-        response.message = {
-            error : true,
-            errorMessage : 'ERROR: API call /' + self.mountPath + '/' + request.path + ' not found.',
-            data : {}
-        };
+
+    self.expressApp.use(mountPath, function(request, response, next) {
         next();
     });
 };
 
-static.prototype.unmountRoute = function(route) {
-	
-};
-
 static.prototype.mountRoute = function configureRoute(file) {
-	
+    var self = this;
+    var fileNameWithoutExtension = this.interpretFile(file);
+    var route = '/' + self.mountPath + '/' + fileNameWithoutExtension;
+    self.logger.info('Mounting route at [' + route + ']');
+    self.expressApp.get(route, function(request, response, next) {
+        response.sendFile(self.publicAPI[fileNameWithoutExtension].path);
+    });
 };
 
-static.prototype.interpretFile = function interpretFile(file) {
-	
+static.prototype.interpretFile = function interpretFile(filePath) {
+	var filetype = path.extname(filePath);
+    var filename = path.basename(filePath);
+    var fileNameWithoutExtension = filename.slice(0, filename.length - filetype.length);
+    this.publicAPI[fileNameWithoutExtension] = {
+    	path: filePath,
+    	extension: filetype,
+    };
+    return fileNameWithoutExtension;
 };

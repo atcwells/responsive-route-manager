@@ -1,10 +1,12 @@
 var fs = require('fs-extra');
 var path = require('path');
 var _ = require('lodash-node');
+var bodyParser = require('body-parser');
 
 module.exports = functionalAPI = function functionalAPI(mountPath, expressApp) {
     var self = this;
     self.expressApp = expressApp;
+    self.expressApp.use(bodyParser.json());
     self.mountPath = mountPath;
     self.publicAPI = {};
 
