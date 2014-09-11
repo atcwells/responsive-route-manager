@@ -6,9 +6,7 @@
   "dependencies": {
     "hound": "~1.0.4",
     "lodash-node": "~2.4.1",
-    "fs-extra": "~0.10.0",
-    "body-parser": "~1.8.1",
-    "express": "~4.8.4"
+    "body-parser": "~1.8.1"
   },
   "devDependencies": {},
   "scripts": {
@@ -21,8 +19,7 @@
   "keywords": [
     "route",
     "manager",
-    "api",
-    "manager"
+    "responsive"
   ],
   "author": "Alex Wells",
   "license": "MIT",
