@@ -2,6 +2,10 @@
 
 ## Installation
 
+Install from npm with:
+
+    npm install --save response-route-manager
+
 ## Options
 
   - `logger` Collection (optional, default: `sessions`) 
