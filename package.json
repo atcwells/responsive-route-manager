@@ -1,6 +1,6 @@
 {
-  "name": "ResponsiveRouteManager",
-  "version": "0.0.0",
+  "name": "responsive-route-manager",
+  "version": "0.2.0",
   "description": "A route manager which automatically updates based on specifications provided, whilst the parent application is running.",
   "main": "ResponsiveRouteManager.js",
   "dependencies": {
