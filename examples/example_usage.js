@@ -1,6 +1,5 @@
 var expressApp = require('express')();
-var fs = require('fs-extra');
-var RAM = require('../responsive-route-manager.js');
+var RAM = require('responsive-route-manager');
 
 var x = new RAM({
 	folder : '/examples/static-examples',
@@ -24,5 +23,3 @@ setTimeout(function() {
 	// ram.shutdown();
 	console.log(x.getRoutes());
 }, 100);
-
-

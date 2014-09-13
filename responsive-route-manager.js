@@ -1,7 +1,11 @@
 var _ = require('lodash-node');
 var hound = require('hound');
 
-module.exports = ResponsiveRouteManager = function ResponsiveRouteManager(optionsObj, expressApp) {
+module.exports = function init(options, expressApp) {
+	return new ResponsiveRouteManager(options, expressApp);
+};
+
+var ResponsiveRouteManager = function ResponsiveRouteManager(optionsObj, expressApp) {
     var self = this;
     self.expressApp = expressApp;
     var options = optionsObj || {};
