@@ -1,6 +1,6 @@
-# ResponsiveRouteManager
+# responsive-route-manager
 
-Route manager which updates according to watched files. Configurable programmatically. Requires [express](https://github.com/strongloop/express)  to be passed, in order to actually configure any routes.
+Route manager which updates according to watched files. Configurable programmatically. Requires [express](https://github.com/strongloop/express) to be passed, in order to actually configure any routes.
 
 ## Installation
 
