@@ -1,14 +1,14 @@
 var expressApp = require('express')();
-var RAM = require('responsive-route-manager');
+var RAM = require('../responsive-route-manager.js');
 
 var x = new RAM({
-	folder : '/examples/static-examples',
+	folder : '/static-examples',
 	clientType : 'static',
 	mountPath : 'static'
 }, expressApp);
 
 var ram = new RAM({
-	folder : '/examples/functional-api-examples',
+	folder : '/functional-api-examples',
     clientType : 'functional-api',
     mountPath : 'api'
 }, expressApp);

@@ -26,7 +26,7 @@ Install from npm:
   - `logger` A logger object which exposes methods 'info', 'error', 'warn', 'debug'. Otherwise messages are logged to the console.
   - `folder` Folder which should be inspected for the lifetime of the application for changes/insertions.
   - `mountPath` URL Path upon which the assets should be mounted.
-  - `clientType` Coresponds to the filename of one of the files in the 'client_types' folder. Defines the type of asset to be managed.
+  - `clientType` Corresponds to the filename of one of the files in the 'client_types' folder. Defines the type of asset to be managed.
 
 ## Client Types  
 
@@ -34,6 +34,14 @@ Current client types are:
 
   - `functional-api` An API which takes in POST parameters and responds using logic defined by a piece of middleware.
   - `static` A server which responds to new files creating new routes as they are required. A replacement for statically passing a whole folder.
+
+## Designing a new Client Type
+
+A client type can do pretty much anything you like, as long as it implements two methods:
+
+constructor: here any catch-all routes can be applied.
+configureRoute: a function which decides how a route is executed for this client type.
+interpretFile: a handler function which will decide how a file is to be recognised.
 
 ## API
 

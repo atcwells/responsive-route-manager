@@ -10,7 +10,7 @@ module.exports = functionalAPI = function functionalAPI(mountPath, expressApp) {
     self.publicAPI = {};
 
     self.logger.info('Creating mount path at [' + this.mountPath + ']');
-    expressApp.use('/' + self.mountPath, function(request, response, next) {
+    self.expressApp.use('/' + self.mountPath, function(request, response, next) {
         response.message = {
             error : true,
             errorMessage : 'ERROR: API call /' + self.mountPath + '/' + request.path + ' not found.',
@@ -25,12 +25,12 @@ functionalAPI.prototype.mountRoute = function configureRoute(file) {
     var file = self.interpretFile(file);
     if (file && file.properties && file.properties.name && _.isFunction(self.publicAPI[file.properties.name])) {
     	if(!self.expressApp[file.properties.verb])
-    		throw "You have specified a verb that Express doesn't like.";
-    		
+    		throw "You have specified a verb that Express doesn't like (" + file.properties.verb + ").";
+
         var route = '/' + self.mountPath + '/' + file.properties.name + '/:method';
         self.logger.info('Mounting route at [' + route + ']');
         self.expressApp[file.properties.verb](route, function(request, response, next) {
-            var api = new self.publicAPI[file.properties.name](request, response, function(response) {
+            var api = new self.publicAPI[file.properties.name](request, response, function() {
                 if (response && !response.headerSent) {
                     if (!response.message.error) {
                         delete response.message.errorMessage;
