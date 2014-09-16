@@ -10,51 +10,54 @@ Install from npm:
 
 ## Example
 
-1.) run 'npm install--save responsive-route-manager'.
+1. run 'npm install--save responsive-route-manager'.
 
-2.) run 'npm install--save express'.
+2. run 'npm install--save express'.
 
-3.) create a file in the root of your new project with the following script:
+3. create a file in the root of your new project with the following script:
 
-    var expressApp = require('express')();
-    var RRM = require('responsive-route-manager');
-    var rrmFunctional = new RRM({
-        folder : '/node_modules/responsive-route-manager/examples/functional-api-examples',
-        clientType : 'functional-api',
-        mountPath : 'api',
-        logger: ''
-    }, expressApp);
+```javascript
+var expressApp = require('express')();
+var RRM = require('responsive-route-manager');
+var rrmFunctional = new RRM({
+    folder : '/node_modules/responsive-route-manager/examples/functional-api-examples',
+    clientType : 'functional-api',
+    mountPath : 'api',
+    logger: ''
+}, expressApp);
 
-    var rrmStatic = new RRM({
-      folder : '/node_modules/responsive-route-manager/examples/static-examples',
-        clientType : 'static',
-        mountPath : 'static'
-    }, expressApp);
+var rrmStatic = new RRM({
+  folder : '/node_modules/responsive-route-manager/examples/static-examples',
+    clientType : 'static',
+    mountPath : 'static'
+}, expressApp);
 
-    expressApp.listen(3000, '127.0.0.1', function() {
-        console.log('HTTP server started on 127.0.0.1:3000');
-    });
+expressApp.listen(3000, '127.0.0.1', function() {
+    console.log('HTTP server started on 127.0.0.1:3000');
+});
 
-    setTimeout(function(){
-          rrmFunctional.changeMountPath('newapipath');
-    }, 100);
+setTimeout(function(){
+      rrmFunctional.changeMountPath('newapipath');
+}, 100);
+```
 
+4. run the file using:
 
-4.) run the file using:
+```
+node <filename>
+```
 
-    node <filename>
-
-5.) POST a request to the functional-api, or a GET to the static file manager.
+5. POST a request to the functional-api, or a GET to the static file manager.
 
 5a.) Use curl from the command line like the following:
 
-    curl -H "Content-Type: application/json" -d '{"username":"xyz","password":"xyz"}' http://127.0.0.1:3000/api/example/test
+```
+curl -H "Content-Type: application/json" -d '{"username":"xyz","password":"xyz"}' http://127.0.0.1:3000/api/example/test
+```
 
 This will not work! try swapping `api` for `newapipath` to see results.
 
 5b.) Use a browser to visit your webserver at http://127.0.0.1:3000/static/test
-
-6.) After 1 minute, the timeout will fire and the api will instead be available from "http://127.0.0.1:3000/newapipath/...""
 
 ## Options
 
