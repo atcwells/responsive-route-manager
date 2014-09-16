@@ -11,9 +11,10 @@ Install from npm:
 ## Example
 
 1.) run 'npm install--save responsive-route-manager'.
+
 2.) run 'npm install--save express'.
-3.) take the examples from the 'examples' directory in /node_modules/responsive-route-manager, copy them to your own directory.
-4.) create a file with the following script:
+
+3.) create a file in the root of your new project with the following script:
 
     var expressApp = require('express')();
     var RRM = require('responsive-route-manager');
@@ -38,14 +39,19 @@ Install from npm:
           rrmFunctional.changeMountPath('newapipath');
     }, 60000);
 
-5.) run the file using 'node <filename>'.
-6.) POST a request to the functional-api, or a GET to the static file manager.
-6a.) use a curl from the command line like the following:
+4.) run the file using:
+
+    node <filename>
+
+5.) POST a request to the functional-api, or a GET to the static file manager.
+
+5a.) Use curl from the command line like the following:
 
     curl -H "Content-Type: application/json" -d '{"username":"xyz","password":"xyz"}' http://127.0.0.1:3000/api/example/test
 
-6b.) use a browser to visit your webserver at http://127.0.0.1:3000/static/test
-7.) After 1 minute, the timeout will fire and the api will instead be available from "http://127.0.0.1:3000/newapipath/...""
+5b.) Use a browser to visit your webserver at http://127.0.0.1:3000/static/test
+
+6.) After 1 minute, the timeout will fire and the api will instead be available from "http://127.0.0.1:3000/newapipath/...""
 
 ## Options
 

@@ -1,16 +1,18 @@
 var _ = require('lodash-node');
 var hound = require('hound');
+var shell = require('shelljs');
 
 module.exports = function init(options, expressApp) {
-	return new ResponsiveRouteManager(options, expressApp);
+	return new route_manager(options, expressApp);
 };
 
-var ResponsiveRouteManager = function ResponsiveRouteManager(optionsObj, expressApp) {
+var route_manager = function route_manager(optionsObj, expressApp) {
+		var options = optionsObj || {};
     var self = this;
     self.expressApp = expressApp;
-    var options = optionsObj || {};
+		self.folder = shell.pwd() + options.folder;
 
-    self.watcher = hound.watch(process.env.PWD + options.folder);
+    self.watcher = hound.watch(self.folder);
     self.logger = {
         debug : (options.logger && options.logger.debug) || console.log,
         info : (options.logger && options.logger.info) || console.log,
@@ -19,12 +21,11 @@ var ResponsiveRouteManager = function ResponsiveRouteManager(optionsObj, express
     };
     self.clientType = options.clientType;
     self.mountPath = options.mountPath || 'api';
-    self.folder = process.env.PWD + options.folder;
 
     self.startup();
 };
 
-ResponsiveRouteManager.prototype.startup = function init() {
+route_manager.prototype.startup = function init() {
     var self = this;
     self.setupFileWatching();
 
@@ -39,18 +40,18 @@ ResponsiveRouteManager.prototype.startup = function init() {
     });
 };
 
-ResponsiveRouteManager.prototype.shutdown = function() {
+route_manager.prototype.shutdown = function() {
     this.unmountRoute('/' + this.mountPath);
     this.watcher.clear();
 };
 
-ResponsiveRouteManager.prototype.changeMountPath = function changeMountPath(mountPath) {
+route_manager.prototype.changeMountPath = function changeMountPath(mountPath) {
     this.shutdown();
     this.mountPath = mountPath;
     this.startup();
 };
 
-ResponsiveRouteManager.prototype.unmountRoute = function(route) {
+route_manager.prototype.unmountRoute = function(route) {
     for (var i = 0, len = this.expressApp._router.stack.length; i < len; ++i) {
         if (this.expressApp._router.stack[i] && this.expressApp._router.stack[i].route && this.expressApp._router.stack[i].route.path.indexOf(route) == 0) {
             this.logger.info('Unmounting Route at [' + this.expressApp._router.stack[i].route.path + ']');
@@ -61,7 +62,7 @@ ResponsiveRouteManager.prototype.unmountRoute = function(route) {
     return false;
 };
 
-ResponsiveRouteManager.prototype.discoverFiles = function discoverFiles(folder, callback) {
+route_manager.prototype.discoverFiles = function discoverFiles(folder, callback) {
     var fs = require('fs');
     var apiFilesArr = [];
 
@@ -75,7 +76,7 @@ ResponsiveRouteManager.prototype.discoverFiles = function discoverFiles(folder, 
     });
 };
 
-ResponsiveRouteManager.prototype.setupFileWatching = function setupFileWatching() {
+route_manager.prototype.setupFileWatching = function setupFileWatching() {
     var self = this;
     self.watcher.on('create', function(file, stats) {
         self[self.clientType].mountRoute(file);
@@ -88,7 +89,7 @@ ResponsiveRouteManager.prototype.setupFileWatching = function setupFileWatching(
     });
 };
 
-ResponsiveRouteManager.prototype.getRoutes = function getRoutes() {
+route_manager.prototype.getRoutes = function getRoutes() {
     var routes = {};
     routes[this.mountPath] = {};
     for (var apiKey in this[this.clientType].publicAPI) {
@@ -106,4 +107,3 @@ ResponsiveRouteManager.prototype.getRoutes = function getRoutes() {
     }
     return routes;
 };
-

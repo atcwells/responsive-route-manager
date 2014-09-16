@@ -1,12 +1,13 @@
 {
   "name": "responsive-route-manager",
-  "version": "0.3.0",
+  "version": "0.3.6",
   "description": "A route manager which automatically updates based on specifications provided, whilst the parent application is running.",
   "main": "responsive-route-manager.js",
   "dependencies": {
     "hound": "~1.0.4",
     "lodash-node": "~2.4.1",
-    "body-parser": "~1.8.1"
+    "body-parser": "~1.8.1",
+    "shelljs": "^0.3.0"
   },
   "devDependencies": {},
   "scripts": {
