@@ -19,14 +19,14 @@ Install from npm:
     var expressApp = require('express')();
     var RRM = require('responsive-route-manager');
     var rrmFunctional = new RRM({
-        folder : '/examples/functional-api-examples',
+        folder : '/node_modules/responsive-route-manager/examples/functional-api-examples',
         clientType : 'functional-api',
         mountPath : 'api',
         logger: ''
     }, expressApp);
 
     var rrmStatic = new RRM({
-      folder : '/examples/static-examples',
+      folder : '/node_modules/responsive-route-manager/examples/static-examples',
         clientType : 'static',
         mountPath : 'static'
     }, expressApp);
@@ -37,7 +37,8 @@ Install from npm:
 
     setTimeout(function(){
           rrmFunctional.changeMountPath('newapipath');
-    }, 60000);
+    }, 100);
+
 
 4.) run the file using:
 
@@ -48,6 +49,8 @@ Install from npm:
 5a.) Use curl from the command line like the following:
 
     curl -H "Content-Type: application/json" -d '{"username":"xyz","password":"xyz"}' http://127.0.0.1:3000/api/example/test
+
+This will not work! try swapping `api` for `newapipath` to see results.
 
 5b.) Use a browser to visit your webserver at http://127.0.0.1:3000/static/test
 
