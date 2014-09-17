@@ -59,6 +59,9 @@ This will not work! try swapping `api` for `newapipath` to see results.
 
 5b.) Use a browser to visit your webserver at http://127.0.0.1:3000/static/test
 
+If using the functional-api routes, you can now change your routes and you'll immediately (without restarting) be able to reach your new functionality.
+If using the static routes, you can add/remove/rename the files and change the contents, and the new file will be served as per the request.
+
 ## Options
 
   - `logger` A logger object which exposes methods 'info', 'error', 'warn', 'debug'. Otherwise messages are logged to the console.
