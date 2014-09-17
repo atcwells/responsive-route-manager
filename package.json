@@ -1,6 +1,6 @@
 {
   "name": "responsive-route-manager",
-  "version": "0.3.6",
+  "version": "0.3.8",
   "description": "A route manager which automatically updates based on specifications provided, whilst the parent application is running.",
   "main": "responsive-route-manager.js",
   "dependencies": {
@@ -9,7 +9,8 @@
     "body-parser": "~1.8.1",
     "shelljs": "^0.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
