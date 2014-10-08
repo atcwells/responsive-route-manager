@@ -10,44 +10,43 @@ Install from npm:
 
 ## Example
 
-1. run 'npm install--save responsive-route-manager'.
+1.) run 'npm install--save responsive-route-manager'.
 
-2. run 'npm install--save express'.
+2.) run 'npm install--save express'.
 
-3. create a file in the root of your new project with the following script:
+3.) create a file in the root of your new project with the following script:
 
-```javascript
-var expressApp = require('express')();
-var RRM = require('responsive-route-manager');
-var rrmFunctional = new RRM({
-    folder : '/node_modules/responsive-route-manager/examples/functional-api-examples',
-    clientType : 'functional-api',
-    mountPath : 'api',
-    logger: ''
-}, expressApp);
+    var expressApp = require('express')();
+    var RRM = require('responsive-route-manager');
+    var rrmFunctional = new RRM({
+        folder : '/node_modules/responsive-route-manager/examples/functional-api-examples',
+        clientType : 'functional-api',
+        mountPath : 'api',
+        logger: ''
+    }, expressApp);
 
-var rrmStatic = new RRM({
-  folder : '/node_modules/responsive-route-manager/examples/static-examples',
-    clientType : 'static',
-    mountPath : 'static'
-}, expressApp);
+    var rrmStatic = new RRM({
+      folder : '/node_modules/responsive-route-manager/examples/static-examples',
+        clientType : 'static',
+        mountPath : 'static'
+    }, expressApp);
 
-expressApp.listen(3000, '127.0.0.1', function() {
-    console.log('HTTP server started on 127.0.0.1:3000');
-});
+    expressApp.listen(3000, '127.0.0.1', function() {
+        console.log('HTTP server started on 127.0.0.1:3000');
+    });
 
-setTimeout(function(){
-      rrmFunctional.changeMountPath('newapipath');
-}, 100);
-```
+    setTimeout(function(){
+          rrmFunctional.changeMountPath('newapipath');
+    }, 100);
 
-4. run the file using:
+
+4.) run the file using:
 
 ```
 node <filename>
 ```
 
-5. POST a request to the functional-api, or a GET to the static file manager.
+5.) POST a request to the functional-api, or a GET to the static file manager.
 
 5a.) Use curl from the command line like the following:
 
@@ -57,9 +56,11 @@ curl -H "Content-Type: application/json" -d '{"username":"xyz","password":"xyz"}
 
 This will not work! try swapping `api` for `newapipath` to see results.
 
-5b.) Use a browser to visit your webserver at http://127.0.0.1:3000/static/test
+5b.) Use a browser to visit your webserver at http://127.0.0.1:3000/static/home. You'll see a blank page, the page has submitted a request to the API.
 
 If using the functional-api routes, you can now change your routes and you'll immediately (without restarting) be able to reach your new functionality.
+
+
 If using the static routes, you can add/remove/rename the files and change the contents, and the new file will be served as per the request.
 
 ## Options
@@ -69,7 +70,7 @@ If using the static routes, you can add/remove/rename the files and change the c
   - `mountPath` URL Path upon which the assets should be mounted.
   - `clientType` Corresponds to the filename of one of the files in the 'client_types' folder. Defines the type of asset to be managed.
 
-## Client Types  
+## Client Types
 
 Current client types are:
 
