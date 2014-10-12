@@ -4,10 +4,11 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-module.exports = functionalAPI = function passportAPI(options, expressApp) {
+module.exports = passportAPI = function passportAPI(options, expressApp) {
     var self = this;
     self.expressApp = expressApp;
     self.expressApp.use(bodyParser.json());
+    self.options = options;
     self.publicAPI = {};
 
     self.logger = {
@@ -31,7 +32,6 @@ module.exports = functionalAPI = function passportAPI(options, expressApp) {
     });
 
     passport.use(new LocalStrategy(function(username, password, done) {
-      var self = this;
       var MongoClient = require('mongodb').MongoClient;
       MongoClient.connect(self.options.mongoUri, function(err, db) {
           if (err)
@@ -42,7 +42,7 @@ module.exports = functionalAPI = function passportAPI(options, expressApp) {
               username : username
           }).toArray(function(err, user) {
               db.close();
-              if (!user) {
+              if (!user || (user && user.length && user.length == 0)) {
                   return done(null, false, {
                       message : 'Incorrect username.'
                   });
@@ -73,7 +73,7 @@ passportAPI.prototype.shutdown = function(callback) {
   callback(null, "Functional API shutdown successfully");
 };
 
-functionalAPI.prototype._unmountRoute = function(route) {
+passportAPI.prototype._unmountRoute = function(route) {
   for (var i = 0, len = this.expressApp._router.stack.length; i < len; ++i) {
     if (this.expressApp._router.stack[i] && this.expressApp._router.stack[i].route && this.expressApp._router.stack[i].route.path.indexOf(route) == 0) {
       this.logger.info('Unmounting Route at [' + this.expressApp._router.stack[i].route.path + ']');
@@ -102,7 +102,7 @@ passportAPI.prototype.getRoutes = function getRoutes(callback) {
 
 passportAPI.prototype._setupAuthRoutes = function getRoutes(callback) {
   var self = this;
-  self.expressapp.post('/' + self.options.mountPath + '/login', function(req, res, next) {
+  self.expressApp.post('/' + self.options.mountPath + '/login', function(req, res, next) {
     // If this function gets called, authentication was successful.
     // `req.user` contains the authenticated user.
     passport.authenticate('local', function(err, user, info) {
@@ -121,7 +121,7 @@ passportAPI.prototype._setupAuthRoutes = function getRoutes(callback) {
     })(req, res, next);
   });
 
-  self.expressapp.post('/' + self.options.mountPath + '/logout', function(req, res) {
+  self.expressApp.post('/' + self.options.mountPath + '/logout', function(req, res) {
       req.logout();
       res.writeHead(200, {
           'content-type' : 'application/json'
