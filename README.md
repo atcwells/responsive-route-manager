@@ -66,7 +66,7 @@ If using the static routes, you can add/remove/rename the files and change the c
 ## Options
 
   - `logger` A logger object which exposes methods 'info', 'error', 'warn', 'debug'. Otherwise messages are logged to the console.
-  - `folder` Folder which should be inspected for the lifetime of the application for changes/insertions.
+  - `folder (optional)` Folder which should be inspected for the lifetime of the application for changes/insertions.
   - `mountPath` URL Path upon which the assets should be mounted.
   - `clientType` Corresponds to the filename of one of the files in the 'client_types' folder. Defines the type of asset to be managed.
 

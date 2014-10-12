@@ -27,17 +27,21 @@ var route_manager = function route_manager(optionsObj, expressApp) {
 
 route_manager.prototype.startup = function init() {
     var self = this;
-    self.setupFileWatching();
+		if(self.folder) {
+    	self.setupFileWatching();
+		}
 
     var apiDef = require('./client_types/' + self.clientType);
     apiDef.prototype.logger = self.logger;
     self[self.clientType] = new apiDef(self.mountPath, self.expressApp);
 
-    self.discoverFiles(self.folder, function(files) {
-        for (var file in files) {
-            self[self.clientType].mountRoute(files[file]);
-        }
-    });
+		if(self.folder) {
+	    self.discoverFiles(self.folder, function(files) {
+	        for (var file in files) {
+	            self[self.clientType].mountRoute(files[file]);
+	        }
+	    });
+		}
 };
 
 route_manager.prototype.shutdown = function() {
