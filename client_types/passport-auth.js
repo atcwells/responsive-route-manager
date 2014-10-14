@@ -42,7 +42,7 @@ module.exports = passportAPI = function passportAPI(options, expressApp) {
               username : username
           }).toArray(function(err, user) {
               db.close();
-              if (!user || (user && user.length && user.length == 0)) {
+              if (!user || (user && user.length == 0)) {
                   return done(null, false, {
                       message : 'Incorrect username.'
                   });
@@ -102,23 +102,13 @@ passportAPI.prototype.getRoutes = function getRoutes(callback) {
 
 passportAPI.prototype._setupAuthRoutes = function getRoutes(callback) {
   var self = this;
-  self.expressApp.post('/' + self.options.mountPath + '/login', function(req, res, next) {
+  self.expressApp.post('/' + self.options.mountPath + '/login', passport.authenticate('local'), function(req, res, next) {
     // If this function gets called, authentication was successful.
     // `req.user` contains the authenticated user.
-    passport.authenticate('local', function(err, user, info) {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return res.redirect('/');
-      }
-      req.logIn(user, function(err) {
-        if (err) {
-          return next(err);
-        }
-        return res.redirect('/');
-      });
-    })(req, res, next);
+    res.writeHead(200, {
+        'content-type' : 'application/json'
+    });
+    res.end("login success");
   });
 
   self.expressApp.post('/' + self.options.mountPath + '/logout', function(req, res) {

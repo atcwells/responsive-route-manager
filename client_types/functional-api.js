@@ -75,9 +75,9 @@ functionalAPI.prototype.getRoutes = function(callback) {
   callback(null, routes);
 };
 
-functionalAPI.prototype._mountRoute = function(file) {
+functionalAPI.prototype._mountRoute = function(fileObj) {
   var self = this;
-  var file = self._interpretFile(file);
+  var file = self._interpretFile(fileObj);
   if (file && file.properties && file.properties.name && _.isFunction(self.publicAPI[file.properties.name])) {
   	if(!self.expressApp[file.properties.verb]) {
       self.logger.error('Unable to Configure route using API file [' + file + ']');
@@ -87,7 +87,6 @@ functionalAPI.prototype._mountRoute = function(file) {
     var route = '/' + self.options.mountPath + '/' + file.properties.name + '/:method';
     self.logger.info('Mounting route at [' + route + ']');
     self.expressApp[file.properties.verb](route, function(request, response, next) {
-      response.message = {};
       var api = new self.publicAPI[file.properties.name](request, response, function() {
         if (response && !response.headerSent) {
           if (!response.message.error) {
@@ -102,7 +101,7 @@ functionalAPI.prototype._mountRoute = function(file) {
       api[request.params.method](request.body);
     });
   } else {
-    self.logger.error('Unable to Configure route using API file [' + file + ']');
+    self.logger.error('Unable to Configure route using API file [' + fileObj + ']');
   }
 };
 
@@ -120,13 +119,13 @@ functionalAPI.prototype._unmountRoute = function(route) {
 functionalAPI.prototype._setupFileWatching = function() {
   var self = this;
   self.watcher.on('create', function(file, stats) {
-    self[self.clientType]._mountRoute(file);
+    self._mountRoute(file);
   });
   self.watcher.on('change', function(file, stats) {
-    self[self.clientType]._mountRoute(file);
+    self._mountRoute(file);
   });
   self.watcher.on('delete', function(file, stats) {
-    self[self.clientType]._unmountRoute(file);
+    self._unmountRoute(file);
   });
 };
 
@@ -147,21 +146,26 @@ functionalAPI.prototype._discoverFiles = function(folder, callback) {
 functionalAPI.prototype._interpretFile = function(file) {
   var self = this;
   delete require.cache[file];
-  var api = require(file);
-  self.publicAPI[path.basename(file).slice(0, path.basename(file).length - 3)] = api;
-  if (api && _.isFunction(api)) {
-    var apiInstance = new api();
-    var apiFunctions = {};
-    for (var key in apiInstance) {
-      if (_.isFunction(apiInstance[key])) {
-        apiFunctions[key] = apiInstance[key];
+  try {
+    var api = require(file);
+
+    self.publicAPI[path.basename(file).slice(0, path.basename(file).length - 3)] = api;
+    if (api && _.isFunction(api)) {
+      var apiInstance = new api();
+      var apiFunctions = {};
+      for (var key in apiInstance) {
+        if (_.isFunction(apiInstance[key])) {
+          apiFunctions[key] = apiInstance[key];
+        }
       }
+      return {
+        api : apiFunctions,
+        properties : apiInstance.properties
+      };
+    } else {
+      return undefined;
     }
-    return {
-      api : apiFunctions,
-      properties : apiInstance.properties
-    };
-  } else {
+  } catch (e) {
     return undefined;
   }
 };
