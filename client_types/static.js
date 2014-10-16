@@ -26,19 +26,21 @@ module.exports = staticAPI = function staticAPI(options, expressApp) {
 
 staticAPI.prototype.startup = function(callback) {
   var self = this;
-  self._setupFileWatching();
+  if(self.options.watchFolders) {
+    self._setupFileWatching();
+  }
   self._discoverFiles(shell.pwd() + self.options.folder, function(files) {
     for (var file in files) {
       self._mountRoute(files[file]);
     }
-    callback(null, "Functional API started successfully");
+    callback(null, "Static API started successfully");
   });
 };
 
 staticAPI.prototype.shutdown = function(callback) {
   this._unmountRoute('/' + this.options.mountPath);
   this.watcher.clear();
-  callback(null, "Functional API shutdown successfully");
+  callback(null, "Static API shutdown successfully");
 };
 
 staticAPI.prototype.changeMountPath = function(mountPath, callback) {
@@ -64,11 +66,11 @@ staticAPI.prototype.getRoutes = function(callback) {
 
 staticAPI.prototype._mountRoute = function(file) {
   var self = this;
-  var fileNameWithoutExtension = this._interpretFile(file);
-  var route = '/' + self.options.mountPath + '/' + fileNameWithoutExtension;
+  var fileObj = this._interpretFile(file);
+  var route = '/' + self.options.mountPath + '/' + fileObj.fileName;
   self.logger.info('Mounting route at [' + route + ']');
   self.expressApp.get(route, function(request, response, next) {
-      response.sendFile(self.publicAPI[fileNameWithoutExtension].path);
+      response.sendfile(fileObj.path);
   });
 };
 
@@ -86,13 +88,13 @@ staticAPI.prototype._unmountRoute = function(route) {
 staticAPI.prototype._setupFileWatching = function() {
   var self = this;
   self.watcher.on('create', function(file, stats) {
-    self[self.clientType]._mountRoute(file);
+    self._mountRoute(file);
   });
   self.watcher.on('change', function(file, stats) {
-    self[self.clientType]._mountRoute(file);
+    self._mountRoute(file);
   });
   self.watcher.on('delete', function(file, stats) {
-    self[self.clientType]._unmountRoute(file);
+    self._unmountRoute(file);
   });
 };
 
@@ -115,8 +117,9 @@ staticAPI.prototype._interpretFile = function(filePath) {
   var filename = path.basename(filePath);
   var fileNameWithoutExtension = filename.slice(0, filename.length - filetype.length);
   this.publicAPI[fileNameWithoutExtension] = {
+    fileName : filename,
   	path: filePath,
   	extension: filetype,
   };
-  return fileNameWithoutExtension;
+  return this.publicAPI[fileNameWithoutExtension];
 };

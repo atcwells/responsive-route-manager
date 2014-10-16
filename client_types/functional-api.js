@@ -33,7 +33,9 @@ module.exports = functionalAPI = function functionalAPI(options, expressApp, cal
 
 functionalAPI.prototype.startup = function(callback) {
   var self = this;
-  self._setupFileWatching();
+  if(self.options.watchFolders) {
+    self._setupFileWatching();
+  }
   self._discoverFiles(shell.pwd() + self.options.folder, function(files) {
     for (var file in files) {
       self._mountRoute(files[file]);
