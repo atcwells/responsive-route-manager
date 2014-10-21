@@ -15,9 +15,9 @@ var api_manager = new RAM({
       console.log('route changed');
       api_manager.getRoutes(function(err, routes) {
         console.log(err);
+        console.log('test');
         console.log(routes);
       });
     });
   });
-
 });
